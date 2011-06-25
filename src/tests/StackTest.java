@@ -2,6 +2,7 @@ package tests;
 
 import org.junit.Before;
 import org.junit.Test;
+import stack.BoundedStack;
 import stack.Stack;
 
 import static junit.framework.Assert.assertEquals;
@@ -15,7 +16,7 @@ public class StackTest
     @Before
     public void setup()
     {
-        stack = Stack.Make(2);
+        stack = BoundedStack.Make(2);
     }
 
     @Test
@@ -42,7 +43,7 @@ public class StackTest
         assertTrue(stack.isEmpty());
     }
 
-    @Test(expected = Stack.Overflow.class)
+    @Test(expected = BoundedStack.Overflow.class)
     public void WhenPushedPastLimit_StackOverFlows()
     {
         stack.push(1);
@@ -50,7 +51,7 @@ public class StackTest
         stack.push(1);
     }
 
-    @Test(expected = Stack.Underflow.class)
+    @Test(expected = BoundedStack.Underflow.class)
     public void WhenEmptyStackIsPopped_ShouldThrowUnderflow()
     {
         stack.pop();
@@ -73,16 +74,16 @@ public class StackTest
         assertEquals(1, stack.pop());
     }
 
-    @Test(expected = Stack.ZeroCapacity.class)
+    @Test(expected = BoundedStack.ZeroCapacity.class)
     public void WhenCapacityLowerThanZero_ThrowsZeroCapacity()
     {
-        stack = Stack.Make(-1);
+        stack = BoundedStack.Make(-1);
     }
 
-    @Test(expected = Stack.Overflow.class)
+    @Test(expected = BoundedStack.Overflow.class)
     public void WhenCreatingStackWithZeroCapacity_AnyPushShouldOverflow()
     {
-        stack = Stack.Make(0);
+        stack = BoundedStack.Make(0);
         stack.push(1);
     }
 }
