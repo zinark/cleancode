@@ -15,7 +15,7 @@ public class StackTest
     @Before
     public void setup()
     {
-        stack = Stack.Build(2);
+        stack = Stack.Make(2);
     }
 
     @Test
@@ -42,24 +42,47 @@ public class StackTest
         assertTrue(stack.isEmpty());
     }
 
-    @Test (expected = Stack.Overflow.class)
-    public void WhenPushedPastLimit_StackOverFlows ()
+    @Test(expected = Stack.Overflow.class)
+    public void WhenPushedPastLimit_StackOverFlows()
     {
         stack.push(1);
         stack.push(1);
         stack.push(1);
     }
 
-    @Test (expected = Stack.Underflow.class)
-    public void WhenEmptyStackIsPopped_ShouldThrowUnderflow ()
+    @Test(expected = Stack.Underflow.class)
+    public void WhenEmptyStackIsPopped_ShouldThrowUnderflow()
     {
         stack.pop();
     }
 
     @Test
-    public void WhenOneIsPush_OneIsPopped ()
+    public void WhenOneIsPush_OneIsPopped()
+    {
+        stack.push(100);
+        assertEquals(100, stack.pop());
+    }
+
+    @Test
+    public void WhenOneAndTwoPushed_TwoAndOneArePopped()
     {
         stack.push(1);
+        stack.push(2);
+
+        assertEquals(2, stack.pop());
         assertEquals(1, stack.pop());
+    }
+
+    @Test(expected = Stack.ZeroCapacity.class)
+    public void WhenCapacityLowerThanZero_ThrowsZeroCapacity()
+    {
+        stack = Stack.Make(-1);
+    }
+
+    @Test(expected = Stack.Overflow.class)
+    public void WhenCreatingStackWithZeroCapacity_AnyPushShouldOverflow()
+    {
+        stack = Stack.Make(0);
+        stack.push(1);
     }
 }

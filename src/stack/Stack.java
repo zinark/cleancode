@@ -1,41 +1,45 @@
 package stack;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Stack
 {
-    private int size = 0;
-    private int capacity = 0;
+    int _Size = 0;
+    int _Capacity = 0;
+    int[] _Elements;
 
     Stack(int capacity)
     {
-        this.capacity = capacity;
+        _Capacity = capacity;
+        _Elements = new int[1024];
     }
 
     public boolean isEmpty()
     {
-        return size == 0;
+        return _Size == 0;
     }
 
     public int getSize()
     {
-        return size;
+        return _Size;
     }
 
-    public void push(int i)
+    public void push(int value)
     {
-        if (size == capacity) throw new Overflow();
-        size++;
+        if (_Size == _Capacity) throw new Overflow();
+        _Elements[++_Size] = value;
     }
 
     public int pop()
     {
-        if (size == 0) throw new Underflow();
-        size--;
-
-        return -1;
+        if (_Size == 0) throw new Underflow();
+        return _Elements[_Size--];
     }
 
-    public static Stack Build(int capacity)
+    public static Stack Make(int capacity)
     {
+        if (capacity < 0) throw new ZeroCapacity();
         return new Stack(capacity);
     }
 
@@ -47,8 +51,7 @@ public class Stack
     {
     }
 
-    public void test ()
+    public static class ZeroCapacity extends RuntimeException
     {
-
     }
 }
