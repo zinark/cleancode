@@ -86,4 +86,11 @@ public class StackTest
         stack = BoundedStack.Make(0);
         stack.push(1);
     }
+
+    @Test
+    public void WhenOneIsPushed_OneIsOnTop ()
+    {
+        stack.push(100);
+        assertEquals(100, stack.top());
+    }
 }

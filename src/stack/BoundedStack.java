@@ -38,21 +38,68 @@ public class BoundedStack implements Stack
         return _Elements[_Size--];
     }
 
-    public static BoundedStack Make(int capacity)
+    @Override
+    public int top()
+    {
+        return _Elements[_Size];
+    }
+
+    public static Stack Make(int capacity)
     {
         if (capacity < 0) throw new ZeroCapacity();
+        if (capacity == 0)
+        {
+            return new ZeroCapacityStack();
+        }
+
         return new BoundedStack(capacity);
+
+
     }
 
-    public class Overflow extends RuntimeException
+    public static class Overflow extends RuntimeException
     {
     }
 
-    public class Underflow extends RuntimeException
+    public static class Underflow extends RuntimeException
     {
     }
 
     public static class ZeroCapacity extends RuntimeException
     {
+    }
+
+    private static class ZeroCapacityStack implements Stack
+    {
+
+        @Override
+        public boolean isEmpty()
+        {
+            return false;
+        }
+
+        @Override
+        public int getSize()
+        {
+            return 0;
+        }
+
+        @Override
+        public void push(int value)
+        {
+            throw new Overflow();
+        }
+
+        @Override
+        public int pop()
+        {
+            throw new Underflow();
+        }
+
+        @Override
+        public int top()
+        {
+            return 0;
+        }
     }
 }
